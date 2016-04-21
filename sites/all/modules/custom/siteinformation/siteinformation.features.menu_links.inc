@@ -64,30 +64,12 @@ function siteinformation_menu_default_menu_links() {
     'weight' => -50,
     'customized' => 1,
   );
-  // Exported menu link: main-menu_welcome-to-my-coding-portfolio:node/2.
-  $menu_links['main-menu_welcome-to-my-coding-portfolio:node/2'] = array(
-    'menu_name' => 'main-menu',
-    'link_path' => 'node/2',
-    'router_path' => 'node/%',
-    'link_title' => 'Welcome to my Coding Portfolio',
-    'options' => array(
-      'identifier' => 'main-menu_welcome-to-my-coding-portfolio:node/2',
-    ),
-    'module' => 'menu',
-    'hidden' => 0,
-    'external' => 0,
-    'has_children' => 0,
-    'expanded' => 0,
-    'weight' => -47,
-    'customized' => 1,
-  );
 
   // Translatables
   // Included for use with string extractors like potx.
   t('About');
   t('Contact');
   t('Home');
-  t('Welcome to my Coding Portfolio');
 
   return $menu_links;
 }

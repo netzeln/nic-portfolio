@@ -89,7 +89,7 @@ function coding_projects_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'menu_parent_coding_project';
-  $strongarm->value = 'main-menu:310';
+  $strongarm->value = 'main-menu:355';
   $export['menu_parent_coding_project'] = $strongarm;
 
   $strongarm = new stdClass();

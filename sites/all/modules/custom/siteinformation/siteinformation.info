@@ -12,7 +12,6 @@ features[menu_custom][] = main-menu
 features[menu_links][] = main-menu_about:node/1
 features[menu_links][] = main-menu_contact:contact
 features[menu_links][] = main-menu_home:<front>
-features[menu_links][] = main-menu_welcome-to-my-coding-portfolio:node/2
 features[variable][] = site_mail
 features[variable][] = site_name
 project path = sites/all/modules/custom
