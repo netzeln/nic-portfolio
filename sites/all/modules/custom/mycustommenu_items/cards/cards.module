@@ -1,0 +1,26 @@
+<?php
+function cards_menu(){
+        $friends = friend_list();
+        $items = array();
+        foreach($friends as $friend){
+            $items['cards/'. $friend] = array(
+                'title'=> $friend,
+                'access callback'=> TRUE,
+                'page callback'=> "cards",
+                'menu_name'=> 'menu-custom-modules',
+                'page arguments'=> array($friend),
+                'type'=> MENU_NORMAL_ITEM,
+        );
+    }
+    return $items;
+}
+
+function friend_list(){
+    $friends = array("Tim", "Irma", "Frank");
+    return $friends;
+}
+
+function cards($args){
+    
+            return 'hi ' . $args;
+        }

@@ -1,0 +1,22 @@
+<?php
+function hello_user_menu(){
+    $items = array();
+    $items['hello_user'] = array(
+        'title' => 'Hello New User!',
+        'access callback' => TRUE,
+        'page callback' => 'hello_message',
+        'type' => MENU_CALLBACK,
+    );
+    return $items;
+}
+
+function hello_message(){
+    return '<h2> HI NEW USER! WELCOME TO OUR COOL SITE! (we will authenticate you and then you can actually use it)</h2>
+    <a href="/">Home</a>
+    <br>
+    <a href="about">About</a>';
+}
+
+function hello_user_user_insert(){
+    $_GET['destination'] = 'hello_user';
+}

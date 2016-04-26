@@ -1,0 +1,5 @@
+name = Favorites
+description = dynamically links to pages for friends
+package = My First Module
+core = 7.x
+files[] = favorites.module

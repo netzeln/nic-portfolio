@@ -1,0 +1,5 @@
+name = Groceries
+description = Create a grocery list
+package = My First Module
+core = 7.x
+files[] groceries.module

@@ -1,0 +1,65 @@
+<?php
+
+function groceries_menu() {
+    $items = array();
+    $items['groceries_list'] = array(
+        'title' => 'My Groceries',
+        'access callback' => TRUE,
+        'menu_name' => 'menu-custom-modules',
+        'page callback' => 'groceries_display',
+        'type' => MENU_NORMAL_ITEM,
+    );
+    return $items;
+}
+
+function list_of_groceries(){
+    $grocery_list = array(
+            'eggs' => array(
+                'price' => 3.20,
+                'quantity' => 1,
+                'expired' => TRUE,
+            ),
+            'milk' => array(
+                'price' => 2.20,
+                'quantity' => 2,
+                'expired' => TRUE,
+            ),
+            'bread' => array(
+                'price' => 4,
+                'quantity' => 5,
+                'expired' => TRUE,
+            ),
+        );
+    return $grocery_list;
+}
+
+function total_price_per_grocery($price, $quantity) {
+    return $price * $quantity;
+}
+
+function total_price() {
+    $grocery_list = list_of_groceries();
+    $total = 0;
+    foreach ($grocery_list as $grocery_list_item_name => $grocery_list_item_value) {
+        $total = $total + $grocery_list_item_value['price'] * $grocery_list_item_value['quantity'];
+    }
+    return $total;
+}
+
+function groceries_display() {
+    $app = '';
+    $grocery_list = list_of_groceries();
+    $total = total_price();
+    foreach ($grocery_list as $grocery_list_item_name => $grocery_list_item_value) {
+        $app = $app.'<h3>' . $grocery_list_item_name . '</h3><ul>';
+        foreach($grocery_list_item_value as $grocery_property_key => $grocery_property_value) {
+            $grocery_property_key;
+        $app = $app.'<li>'.$grocery_property_key.': '.$grocery_property_value.'</li>';
+    }
+    $app = $app . '<li>' . total_price_per_grocery($grocery_list_item_value['price'],              $grocery_list_item_value['quantity']). '</li>';
+    $app .= '</ul>';
+    }
+    $app = $app . '<br>Total Price of All Groceries: '.$total;
+    return $app;
+
+}

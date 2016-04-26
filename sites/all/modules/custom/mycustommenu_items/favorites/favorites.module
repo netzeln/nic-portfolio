@@ -1,0 +1,34 @@
+<?php
+function favorites_menu(){
+        $favorites = favorites_list();
+        $items = array();
+        foreach($favorites as $favorite_key=>$favorite_value){
+            $items['favorites/'. $favorite_key] = array(
+                'title'=> $favorite_key,
+                'access callback'=> TRUE,
+                'page callback'=> "favorites",
+                'page arguments'=> array($favorite_value),
+                'menu_name' => 'menu-my-menu-module',
+                'type'=> MENU_NORMAL_ITEM,
+        );
+    }
+    return $items;
+}
+
+function favorites_list(){
+    $favorites = array(
+        'Movies' => array("Gladiator", "Usual Suspects", "Clockwork Orange"),
+        'Songs' => array("All Along the Watchtower", "You Belong With Me", "Purple Rain"),
+        'Books' => array("The Chrysalids", "You Are Not So Smart", "The Happiness Trap"),
+     );
+
+    return $favorites;
+}
+
+function favorites($favorite_value){
+    $app = '<ul>';
+    foreach($favorite_value as $favorite) {
+        $app .= '<li>'.$favorite.'</li>';
+    }
+    return $app .= '</ul>';
+}

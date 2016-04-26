@@ -1,0 +1,78 @@
+<?php
+
+global $users;
+$users = array(
+    'authenticated user' => 'authenticated_user',
+    'moderator' => 'moderator',
+    'administrator' => 'administrator',
+);
+
+function user_greetings_menu() {
+    $items = array();
+    global $users;
+    foreach ($users as $key => $user) {
+        $items['hello_' . $user] = array(
+            'title' => "Hello " . $key . "!",
+            'page callback' => 'say_hello',
+            'page arguments' => array($key),
+            'access callback' => TRUE,
+            'type' => MENU_CALLBACK,
+        );
+        $items['farewell_' . $user] = array(
+          'title' => 'Farewell, ' . $key . '!',
+          'page callback' => 'say_farewell',
+          'page arguments' => array($key),
+          'access callback' => TRUE,
+          'type' => MENU_CALLBACK,
+        );
+    }
+    return $items;
+}
+
+function say_hello($user) {
+    if($user == 'administrator') {
+        return '<p>YOU ARE IN CHARGE!</p>';
+    } elseif ($user == 'moderator') {
+        return '<p>Use your power wisely.</p>';
+    } else {
+        return '<p>Nice to See You!</p>';
+    }
+}
+
+function say_farewell($user) {
+    if($user == 'administrator') {
+        return '<p>YOU ARE STILL IN CHARGE!</p>';
+    } elseif ($user == 'moderator') {
+        return '<p>Thanks for your help!</p>';
+    } else {
+        return '<p>Come Back Soon!</p>';
+    }
+}
+
+//DOES NOT ACCOUNT FOR PASSWORD RESET
+
+//INSTEAD OF USING $account
+// global $user;
+// if(in_array('administrator', $user->roles)){
+
+function user_greetings_user_login(&$edit, $account) {
+    // global $user;
+
+    if(in_array('administrator', $account->roles)){
+        $_GET['destination'] = 'hello_administrator';
+    }elseif(in_array('moderator', $account->roles)){
+        $_GET['destination'] = 'hello_moderator';
+    }else{
+        $_GET['destination'] = 'hello_authenticated_user';
+    }
+}
+
+function user_greetings_user_logout($account) {
+    if(in_array('administrator', $account->roles)){
+        $_GET['destination'] = 'farewell_administrator';
+    }elseif(in_array('moderator', $account->roles)){
+        $_GET['destination'] = 'farewell_moderator';
+    }else{
+        $_GET['destination'] = 'farewell_authenticated_user';
+    }
+}

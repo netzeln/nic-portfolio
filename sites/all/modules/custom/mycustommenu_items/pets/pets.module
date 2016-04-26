@@ -1,0 +1,21 @@
+<?php
+    function pets_menu(){
+        $items = array();
+        $items['pet_display'] = array(
+            'title' => 'Favorite Pet',
+            'page callback'=> 'pet_info_display',
+            'menu_name' => 'menu-custom-modules',
+            'access callback' => TRUE,
+            'type' => MENU_NORMAL_ITEM,
+        );
+        return $items;
+    }
+
+    function pet_info_display(){
+        $path = drupal_get_path('modules', 'pets');
+
+        return '<h2> This was Fluffy</h2>
+                <p> She was a good dog.</p>
+                <img src="'.$path.'/fluffy.jpg" alt="Fluffy Picture">
+                <a href="/dogs">More information about Dogs</a>';
+    }

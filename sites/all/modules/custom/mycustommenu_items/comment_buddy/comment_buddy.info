@@ -1,0 +1,5 @@
+name = Comment Buddy
+description = Displays messages when comments are created, edited, or deleted.
+package = Epicodus Examples
+core = 7.x
+files[] = comment_buddy.module
