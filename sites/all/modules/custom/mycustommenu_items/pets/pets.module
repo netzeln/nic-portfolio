@@ -12,10 +12,10 @@
     }
 
     function pet_info_display(){
-        $path = drupal_get_path('modules', 'pets');
-
+        $path = drupal_get_path('module', 'pets').'/fluffy.jpg';
+var_dump($path);
         return '<h2> This was Fluffy</h2>
                 <p> She was a good dog.</p>
-                <img src="'.$path.'/fluffy.jpg" alt="Fluffy Picture">
+                <img src='.$path.' alt="Fluffy Picture">
                 <a href="/dogs">More information about Dogs</a>';
     }

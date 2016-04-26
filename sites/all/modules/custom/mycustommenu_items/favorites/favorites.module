@@ -8,7 +8,7 @@ function favorites_menu(){
                 'access callback'=> TRUE,
                 'page callback'=> "favorites",
                 'page arguments'=> array($favorite_value),
-                'menu_name' => 'menu-my-menu-module',
+                'menu_name' => 'menu-custom-modules',
                 'type'=> MENU_NORMAL_ITEM,
         );
     }
