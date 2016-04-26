@@ -1,7 +1,7 @@
 <?php
 
-global $users;
-$users = array(
+global $user_roles;
+$user_roles = array(
     'authenticated user' => 'authenticated_user',
     'moderator' => 'moderator',
     'administrator' => 'administrator',
@@ -9,16 +9,16 @@ $users = array(
 
 function user_greetings_menu() {
     $items = array();
-    global $users;
-    foreach ($users as $key => $user) {
-        $items['hello_' . $user] = array(
-            'title' => "Hello " . $key . "!",
+    global $user_roles;
+    foreach ($user_roles as $key => $value) {
+        $items['hello_' . $value] = array(
+            'title' => "Hello, " . $key . "!",
             'page callback' => 'say_hello',
             'page arguments' => array($key),
             'access callback' => TRUE,
             'type' => MENU_CALLBACK,
         );
-        $items['farewell_' . $user] = array(
+        $items['farewell_' . $value] = array(
           'title' => 'Farewell, ' . $key . '!',
           'page callback' => 'say_farewell',
           'page arguments' => array($key),
@@ -29,23 +29,26 @@ function user_greetings_menu() {
     return $items;
 }
 
-function say_hello($user) {
-    if($user == 'administrator') {
-        return '<p>YOU ARE IN CHARGE!</p>';
-    } elseif ($user == 'moderator') {
-        return '<p>Use your power wisely.</p>';
+function say_hello($user_title) {
+    global $user;
+    
+    if($user_title == 'administrator') {
+        return '<h1>'.$user->name.'</h1> <p>YOU ARE IN CHARGE!</p>';
+    } elseif ($user_title == 'moderator') {
+        return '<p>'.$user->name.':Use your power wisely.</p>';
     } else {
-        return '<p>Nice to See You!</p>';
+        return '<p>HI, '.$user->name.', Nice to See You!</p>';
     }
 }
 
-function say_farewell($user) {
-    if($user == 'administrator') {
+function say_farewell($user_title) {
+    // global $user;
+    if($user_title == 'administrator') {
         return '<p>YOU ARE STILL IN CHARGE!</p>';
-    } elseif ($user == 'moderator') {
-        return '<p>Thanks for your help!</p>';
+    } elseif ($user_title == 'moderator') {
+        return '<p>: Thanks for your help!</p>';
     } else {
-        return '<p>Come Back Soon!</p>';
+        return '<p>Bye, Come Back Soon!</p>';
     }
 }
 
