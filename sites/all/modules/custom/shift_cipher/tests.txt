@@ -1,0 +1,68 @@
+Basic Link-to-form-to-display functionality.
+    Testing Form functionality to accept a phrase and output it lowercase:
+        test phrase: Hi Nic
+        test output: hi nic
+
+--Testing Form validation--
+
+"element_validate_integer_positive"
+    shift value must be a positive integer
+        test shift= 0
+        test shift= -1
+        response = error message for form validation
+
+
+"element_validate_range_shift"
+    limits maximum shift value to 25  (this is an additional feature that can be enabled if acceptable).
+        test shift  = 26
+        response  = form validation error message
+
+"shift_cipher_form_validate"
+    prevent non alpahbet or punctuation characters
+        test phrase: A1 Steak Sauce
+        response: 'Only letters and punctuation please. We can not shift numbers.'
+
+        test phrase: I love steak, sauce!
+        result: i love steak, sauce!
+
+    shift direction must be left or right
+        tested direction entries: Lift, riTe, w,
+        response(for all): 'That is not a legal direction. Use "left" or "right"'
+
+        tested Passing direction entries: left, Left, LEFT, lEft, right, Right, RIGHT, righT, l, r, R, L
+
+        (Dear Client, we can delete  the L/R option to your specifications if needed for production, but for development the option to hit 'l' or 'r' when performing other tests made my development testing faster, which saves you on my hourly fee)
+
+
+---Testing Logic---
+"shift_cipher_form_submit"
+    Find and modify only alpahbetic characters
+        test phrase: Hi, there!
+        response: xx, xxxx!
+
+    accept any valid positive integer yet still shift correctly
+        test shift value: 262
+        direction: r
+        test phrase: abc
+        expected result: cde
+        result: cde
+
+        expected for 262, l: yza
+        result: yza
+
+    Shift each alphabetical character based on inputs (function also includes looping back if over 26):
+        shift: 1
+        direction: right
+
+        test phrase input: a, b, c, z !
+        expected test output: b, c, d, a !
+        test output: b, c, d, a !
+
+    Shift each alphabetical character based on inputs
+    (function also includes looping back if under 1):
+        shift: 1
+        direction: left
+
+        test phrase input: a, b, c, z !
+        expected: test output: a, a, b, y !
+        test output: a, a, b, y !

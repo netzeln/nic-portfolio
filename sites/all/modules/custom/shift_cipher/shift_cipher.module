@@ -34,7 +34,7 @@ $alphabet = array(
     '25' => 'y',
     '26' => 'z',
 );
-
+//QUESTION:  https://www.drupal.org/coding-standards  says that indenting should be 2 spaces... our examples have always used php's 4.
 function shift_cipher_menu(){
     $items['shift_cipher'] = array(
         'title' => "Shift Cipher",
@@ -57,7 +57,7 @@ function shift_cipher_form(){
         '#title' => 'Shift Value',
         '#type' => 'textfield',
         '#description' => 'Enter the number of positions to shift',
-        '#element_validate' => array('element_validate_range_shift', 'element_validate_integer_positive'),
+        '#element_validate' => array( 'element_validate_integer_positive'),
         '#required' => TRUE,
     );
 
@@ -82,11 +82,13 @@ function shift_cipher_form(){
     return $form;
 }
 
-function element_validate_range_shift($element){
-    if($element['#value'] > 25){
-        form_error($element, t('Shifting by more than 25 is silly'));
-    }
-}
+//if range validation is unacceptable see optional code in
+
+// function element_validate_range_shift($element){
+//     if($element['#value'] > 25){
+//         form_error($element, t('Shifting by more than 25 is silly'));
+//     }
+// }
 
 function shift_cipher_form_validate($form, &$form_state){
     global $directions;
@@ -106,7 +108,7 @@ function shift_cipher_form_validate($form, &$form_state){
 function shift_cipher_form_submit($form, &$form_state){
     global $directions;
     global $alphabet;
-    $shift_val = $form_state['values']['shift_value'];
+    $shift_val = ($form_state['values']['shift_value']) % 26;
     $phrase = strtolower($form_state['values']['shift_phrase']);
     $direction = strtolower($form_state['values']['shift_direction']);
     $phrase_split = str_split($phrase);
@@ -129,7 +131,8 @@ function shift_cipher_form_submit($form, &$form_state){
                 }
                 array_push($new_phrase, $alphabet[$new_key]);
             }
-        } else {
+        }
+        else {
             array_push($new_phrase, $character);
         }
     }

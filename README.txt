@@ -1,4 +1,43 @@
 
+# Personal Portfolio (Drupal)
+
+#### Drupal Site for an Personal Portfolio, 2016-04_
+
+#### By _**Nic Netzel**_
+
+## Description
+
+_This is a Portfolio Site for Nic Netzel, created using Drupal. It hosts links to coding projects, as well as shows off interesting or fun Drupal Custom Modules created as part of Epicodus Classwork_
+
+## Setup/Installation Requirements
+
+* _Clone the Repository_
+* _Open MAMP or another  PHP/Server program and set the Project Folder as the home directory_
+* _import the database, found in_ "sites/backup_db/nicportfolio_db.sql.zip"
+* _create a database user called_ "**nic**" _with password_ "**nicadmin**" _and give them the appropriate privileges (this information should also be available in_ "sites/default/settings.php")
+* _To Log-in to the site as an authenticated but anonymous user, use username_ "**visitor**" _and password:_ "**visitor**".
+
+
+
+## Known Bugs
+*
+
+## Support and contact details
+
+_Any changes suggested? Feel free to send a pull request to netzeln on github_
+
+## Technologies Used
+
+
+* _Drupal 7.43_
+* _Contrib Modules: features, views, strongarm, fivestar, votingapi, date, ctools, diff_
+* _custom features modules (sites/all/modules/custom): book_review, site_configuration_
+
+### License
+
+*MIT license*
+
+Copyleft (c) 2016 **_Nicholas Netzel_**
 CONTENTS OF THIS FILE
 ---------------------
 
