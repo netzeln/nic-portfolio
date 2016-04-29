@@ -115,21 +115,19 @@ function shift_cipher_form_submit($form, &$form_state){
     foreach($phrase_split as $character){
         if(in_array($character, $alphabet)){
             if($direction == "l" || $direction =="left"){
-
-                array_push($new_phrase, 'x');
+                $new_key = array_search($character, $alphabet) - $shift_val;
+                if($new_key < 1){
+                    $new_key = $new_key + 26;
+                }
+                array_push($new_phrase, $alphabet[$new_key]);
             }
 
             if($direction == "r" || $direction =="right"){
                 $new_key = array_search($character, $alphabet) + $shift_val;
                 if($new_key > 26){
                     $new_key = $new_key - 26;
-                    array_push($new_phrase, $alphabet[$new_key]);
-                    $new_key = 0;
-                } else {
-                    array_push($new_phrase, $alphabet[$new_key]);
-                    $new_key = 0;
                 }
-                var_dump($new_key);
+                array_push($new_phrase, $alphabet[$new_key]);
             }
         } else {
             array_push($new_phrase, $character);
