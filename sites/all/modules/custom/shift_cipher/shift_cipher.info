@@ -1,0 +1,5 @@
+name = Shift Cipher
+description = uses a Caesar Cipher to encode a phrase
+package = Code Review Modules
+core =7.x
+files[] = shift_cipher.module
