@@ -106,13 +106,31 @@ function shift_cipher_form_validate($form, &$form_state){
 function shift_cipher_form_submit($form, &$form_state){
     global $directions;
     global $alphabet;
-    $phrase = $form_state['values']['shift_phrase'];
+    $shift_val = $form_state['values']['shift_value'];
+    $phrase = strtolower($form_state['values']['shift_phrase']);
     $direction = strtolower($form_state['values']['shift_direction']);
     $phrase_split = str_split($phrase);
     $new_phrase = array();
-    foreach($phrase_split as $key => $character){
+
+    foreach($phrase_split as $character){
         if(in_array($character, $alphabet)){
-            array_push($new_phrase, 'x');
+            if($direction == "l" || $direction =="left"){
+
+                array_push($new_phrase, 'x');
+            }
+
+            if($direction == "r" || $direction =="right"){
+                $new_key = array_search($character, $alphabet) + $shift_val;
+                if($new_key > 26){
+                    $new_key = $new_key - 26;
+                    array_push($new_phrase, $alphabet[$new_key]);
+                    $new_key = 0;
+                } else {
+                    array_push($new_phrase, $alphabet[$new_key]);
+                    $new_key = 0;
+                }
+                var_dump($new_key);
+            }
         } else {
             array_push($new_phrase, $character);
         }
