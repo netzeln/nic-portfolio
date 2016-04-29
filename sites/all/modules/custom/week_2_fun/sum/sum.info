@@ -1,0 +1,5 @@
+name = Sum
+description = takes two numbers and adds them
+package = My First Module
+core = 7.x
+files[] = sum.module

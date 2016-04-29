@@ -1,0 +1,5 @@
+name = Rochambeau
+description = classic paper, rock, scissors...
+package = My First Module
+core = 7.x
+files[] = rochambeau.module

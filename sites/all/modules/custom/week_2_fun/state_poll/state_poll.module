@@ -1,0 +1,159 @@
+<?php
+global $states;
+$states = array(
+    'al' => 'alabamba',
+    'ak' => 'alaska',
+    'wa' => 'washington',
+    'hi' => 'hawaii',
+    'or' => 'oregon',
+    'ca' => 'california',
+    'id' => 'idaho',
+    'mt' => 'montana',
+    'wy' => 'wyoming',
+    'co' => 'colorado',
+    'nv' => 'nevada',
+    'ut' => 'utah',
+    'az' => 'arizona',
+    'nm' => 'new mexico',
+    'tx' => 'texas',
+    'ok' => 'oklahoma',
+    'ks' => 'kansas',
+    'ne' => 'nebraska',
+    'sd' => 'south dakota',
+    'nd' => 'north dakota',
+    'mn' => 'minnesota',
+    'ia' => 'iowa',
+    'mo' => 'missouri',
+    'ak' => 'arkansas',
+    'la' => 'louisiana',
+    'mi' => 'mississippi',
+    'tn' => 'tennessee',
+    'ky' => 'kentucky',
+    'il' => 'illinois',
+    'in' => 'indiana',
+    'wi' => 'wisconsin',
+    'mi' => 'michigan',
+    'oh' => 'ohio',
+    'fl' => 'florida',
+    'ga' => 'georgia',
+    'sc' => 'south carolina',
+    'nc' => 'north carolina',
+    'va' => 'virginia',
+    'wv' => 'west virginia',
+    'md' => 'maryland',
+    'pa' => 'pennsylvania',
+    'nj' => 'new jersey',
+    'ny' => 'new york',
+    'vt' => 'vermont',
+    'nh' => 'new hampshire',
+    'ri' => 'rhode island',
+    'ma' => 'massachusetts',
+    'me' => 'maine',
+    'ct' => 'connecticut',
+    'de' => 'delaware',
+);
+
+function state_poll_menu(){
+    $items['state_poll'] = array(
+        'title' => 'State Poll',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('state_poll_form'),
+        'access callback' => TRUE,
+        'menu_name' => 'menu-fun-modules',
+        'type' => MENU_NORMAL_ITEM,
+    );
+    $items['state_poll_result'] = array(
+        'title' => 'Poll Results',
+        'page callback' => 'state_poll_result',
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+    );
+    return $items;
+}
+
+function state_poll_form(){
+    $form['state'] = array(
+        '#title' => 'State',
+        '#type'=> 'textfield',
+        '#description' => t('enter your home state'),
+        '#required' => TRUE,
+    );
+    $form['selected'] = array(
+        '#type' => 'select',
+        '#title' => t('Ice Cream Choice'),
+        '#options'=> array(
+            'Mint Chip' => 'Mint Chip',
+            'Chocolate' => 'Chocolate',
+            'Strawberry' => 'Strawberry',
+            'Cinnamon' => 'Cinnamon',
+            'Vanilla' => 'Vanilla',
+            'Cookie Dough' => 'Cookie Dough',
+            'Other' => 'Other',
+        ),
+        '#default_value' => 'Vanilla',
+        '#description' => t('Please Choose your Favorite flavor. If you Choose "Other", enter something below...'),
+        '#required' => TRUE,
+    );
+    $form['flavor'] = array(
+        '#title' => 'Other Flavor',
+        '#type'=> 'textfield',
+        '#description' => t('Enter a Flavor here if you selected "Other"'),
+    );
+    $form['submit'] = array(
+        '#type' => 'submit',
+        '#value' => 'Submit your choices',
+    );
+    return $form;
+}
+
+function state_poll_form_validate($form, &$form_state){
+    global $states;
+    $state = strtolower($form_state['values']['state']);
+    $selected_flavor = $form_state['values']['selected'];
+    $other_flavor = $form_state['values']['flavor'];
+
+    if(!(array_key_exists($state, $states)) && !(in_array($state, $states))){
+        form_set_error('state', t('hey, that is not a state. Check your spelling, or your 2-letter abbreviation'));
+    }
+
+    if($selected_flavor === "Other" && !($other_flavor)){
+        form_set_error('flavor', t('Please Tell us What Other flavor you like best.'));
+    }
+
+
+}
+
+function state_poll_form_submit($form, &$form_state){
+    global $states;
+    $state = strtolower($form_state['values']['state']);
+    $flavor = $form_state['values']['selected'];
+    if($flavor === "Other"){
+        $flavor = $form_state['values']['flavor'];
+    }
+
+    if (strlen($state) === 2){
+        $state = $states[$state];
+    }
+
+    $_SESSION['state_poll_result'] = ucwords($state);
+    $_SESSION['flavor_poll_result'] = ucwords(strtolower($flavor));
+    $form_state['redirect'] = 'state_poll_result';
+}
+
+function state_poll_result(){
+    $your_state = $_SESSION['state_poll_result'];
+    $your_flavor = $_SESSION['flavor_poll_result'];
+    $result = "Do people in ". $your_state ." <em>really</em> like ". $your_flavor ." ice cream?";
+
+    $non_bon = array("Mint Chip", "Mint Chocolate Chip", "Mint Chocolate-chip");
+    $bon_bon = array("Peppermint Bon Bon", "Peppermint Bon-bon", "Peppermint Bonbon");
+
+    if($your_state == "Minnesota" && in_array($your_flavor, $non_bon)){
+        $result = "Real Minnesotans call it Peppermint Bon-Bon";
+    }
+
+    if($your_state == "Minnesota" && in_array($your_flavor, $bon_bon)){
+        $result = "You are a Real Minnesotan: ". $your_flavor . " is correct!";
+    }
+    return $result;
+}

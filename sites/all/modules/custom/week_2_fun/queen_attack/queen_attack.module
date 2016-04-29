@@ -1,0 +1,101 @@
+<?php
+
+function queen_attack_menu(){
+    $items['queen_attack'] = array(
+        'title' => 'Queen Attack',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('queen_attack_form'),
+        'access callback' => TRUE,
+        'menu_name' => 'menu-fun-modules',
+        'type' => MENU_NORMAL_ITEM,
+    );
+    $items['queen_attack_result'] = array(
+        'title' => 'Result',
+        'page callback' => 'queen_attack_result',
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+    );
+
+    return $items;
+}
+
+function queen_attack_form(){
+    $form['queen_column'] = array(
+        '#title' => "Queen's Column",
+        '#type' => 'textfield',
+        '#description' => t("Enter the Queen's Starting Column (1 through 8)"),
+        '#element_validate' => array('element_validate_range_chessboard'),
+        '#required' => TRUE,
+    );
+
+    $form['queen_row'] = array(
+        '#title' => "Queen's Row",
+        '#type' => 'textfield',
+        '#description' => t("Enter the Queen's Starting Row (1 through 8)"),
+        '#element_validate' => array('element_validate_range_chessboard'),
+        '#required' => TRUE,
+    );
+    $form['enemy_column'] = array(
+        '#title' => "Enemy's Column",
+        '#type' => 'textfield',
+        '#description' => t("Enter the Enemy's Starting Column (1 through 8)"),
+        '#element_validate' => array('element_validate_integer','element_validate_range_chessboard'),
+        '#required' => TRUE,
+    );
+    $form['enemy_row'] = array(
+        '#title' => "Enemy's Row",
+        '#type' => 'textfield',
+        '#description' => t("Enter the Enemy's Starting Row (1 through 8)"),
+        '#element_validate' => array('element_validate_integer','element_validate_range_chessboard'),
+        '#required' => TRUE,
+    );
+    $form['submit'] = array(
+        '#type' => 'submit',
+        '#value' => 'Attack!',
+    );
+
+    return $form;
+
+}
+
+function element_validate_range_chessboard($element){
+    if($element['#value'] > 8 ||$element['#value'] < 1 ){
+        form_error($element, t('That Square would not exist; Chessboards have 8 Rows and 8 Columns.'));
+    }
+}
+
+function queen_attack_form_validate($form, &$form_state){
+    if(($form_state['values']['queen_column'] === $form_state['values']['enemy_column'])  && ($form_state['values']['queen_row'] === $form_state['values']['enemy_row'])){
+        $col = $form_state['values']['queen_column'];
+        $row =$form_state['values']['queen_row'];
+        form_set_error('queen_column', t('The Queen and Enemy Can Not Share The Square at: Column - '. $col . ', Row - '. $row));
+        form_set_error('queen_row', t('Change'));
+        form_set_error('enemy_column', t('at least'));
+        form_set_error('enemy_row', t('one position'));
+    }
+}
+
+function queen_attack_form_submit($form, &$form_state){
+    $queen_x = $form_state['values']['queen_column'];
+    $queen_y = $form_state['values']['queen_row'];
+    $enemy_x = $form_state['values']['enemy_column'];
+    $enemy_y = $form_state['values']['enemy_row'];
+
+    $attack_result = " ";
+
+    if(($queen_y === $enemy_y) || ($queen_x === $enemy_x)) {
+        $attack_result = "The Queen can Take the Opposing Piece";
+    } elseif(abs(($queen_y - $enemy_y)/($queen_x - $enemy_x)) === 1){
+        $attack_result = "The Queen can Take the Opposing Piece";
+    } else {
+        $attack_result = "The Queen can NOT Take the Opposing Piece";
+    }
+
+    $_SESSION['queen_attack_output'] = $attack_result;
+    $form_state['redirect'] = 'queen_attack_result';
+}
+
+function queen_attack_result(){
+    $output = $_SESSION['queen_attack_output'];
+    return  $output;
+}

@@ -1,0 +1,138 @@
+<?php
+
+global $throws;
+$throws = array(
+    'r' =>'rock',
+    'p' =>'paper',
+    's' =>'scissors',
+    'l' =>'lizard',
+    'k' => 'spock',
+);
+
+function rochambeau_menu(){
+    $items['rochambeau'] = array(
+        'title' => 'Ready Player One',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('rochambeau_player_one_form'),
+        'access callback' => TRUE,
+        'menu_name' => 'menu-fun-modules',
+        'type' => MENU_NORMAL_ITEM,
+    );
+
+    $items ['rochambeau_player_two_turn'] = array(
+        'title'=> 'Ready Player Two',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('rochambeau_player_two_form'),
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+    );
+
+    $items['rochambeau_results'] = array(
+        'title' => 'The Winner Is',
+        'page callback' => 'rochambeau_results',
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+    );
+
+    return $items;
+}
+
+function rochambeau_player_one_form(){
+    $form['player_one_choice'] = array(
+        '#title' => 'Player One',
+        '#type' => 'password',
+        '#required' => TRUE,
+        '#description' => t('Choose your Weapon. (shortcuts: (r), (p), (s))'),
+    );
+    $form['submit'] = array(
+        '#type' => 'submit',
+        '#value' => 'Player One Choose',
+    );
+
+    return $form;
+}
+
+function rochambeau_player_one_form_submit($form, &$form_state){
+    $player_1_choice = $form_state['values']['player_one_choice'];
+
+    $_SESSION['player_one_choice'] = strtolower($player_1_choice);
+
+    $form_state['redirect'] = 'rochambeau_player_two_turn';
+}
+
+function rochambeau_player_one_form_validate($form, &$form_state){
+     global $throws;
+
+    $player_1_choice = strtolower($form_state['values']['player_one_choice']);
+
+
+    if  (!(array_key_exists($player_1_choice, $throws)) && !(in_array($player_1_choice, $throws))){
+        form_set_error('player_one_choice', t($form_state['values']['player_one_choice'] . ' is not a legal choice.' ));
+    }
+
+}
+
+
+
+function rochambeau_player_two_form(){
+    $form['player_two_choice'] = array(
+        '#title' => 'Player Two',
+        '#type' => 'password',
+        '#required' => TRUE,
+        '#description' => t('Choose your Weapon. (shortcuts: (r), (p), (s))'),
+    );
+
+    $form['submit'] = array(
+        '#type' => 'submit',
+        '#value' => 'Shoot!',
+    );
+
+    return $form;
+}
+
+function rochambeau_player_two_form_validate($form, &$form_state){
+     global $throws;
+
+    $player_2_choice = strtolower($form_state['values']['player_two_choice']);
+
+    if (!(array_key_exists($player_2_choice, $throws)) && !(in_array($player_2_choice, $throws))){
+        form_set_error('player_two_choice', t($form_state['values']['player_two_choice'] . ' is not a legal choice. Try again.' ));
+    }
+}
+
+function rochambeau_player_two_form_submit($form, &$form_state){
+    global $throws;
+
+    $player_2_choice = $form_state['values']['player_two_choice'];
+    if(strlen($player_2_choice)===1){
+        $player_2_choice = $throws[$player_2_choice];
+    }
+
+    $player_1_choice = $_SESSION['player_one_choice'];
+    if(strlen($player_1_choice)===1){
+        $player_1_choice = $throws[$player_1_choice];
+    }
+
+    $winner = "win";
+
+    if ($player_1_choice == "rock" && ($player_2_choice == "scissors" ||$player_2_choice== "lizard") ||
+    $player_1_choice == "paper" && ($player_2_choice == "rock" || $player_2_choice == "spock")||
+    $player_1_choice == "scissors" && ($player_2_choice == "paper" || $player_2_choice =="lizard") ||
+    $player_1_choice == "spock" && ($player_2_choice == "scissors" || $player_2_choice == "rock") ||
+    $player_1_choice == "lizard" && ($player_2_choice == "spock" || $player_2_choice == "paper")){
+        $winner = "Player 1, wins! -> " . ucfirst($player_1_choice) . ' beats '. ucfirst($player_2_choice);
+	} elseif ($player_1_choice == $player_2_choice){
+		$winner = "It is a tie: " . ucfirst($player_1_choice) . ' vs '. ucfirst($player_2_choice);
+	} else {
+		$winner = "Player 2, wins! -> " . ucfirst($player_2_choice) . ' beats '. ucfirst($player_1_choice);
+	}
+
+
+    $_SESSION['the_winner'] = $winner;
+    $form_state['redirect'] = 'rochambeau_results';
+}
+
+function rochambeau_results(){
+    $victory = $_SESSION['the_winner'];
+    return $victory;
+}

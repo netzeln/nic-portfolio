@@ -1,0 +1,5 @@
+name = State Poll
+description = records state and favorite ice cream
+package = My First Module
+core = 7.x
+items[] = state_poll.module

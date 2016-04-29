@@ -1,0 +1,5 @@
+name = Triangle Finder
+description = Enter 3 numbers and see if they equal a triangle
+package = My First Module
+core = 7.x
+files[] = triangle_finder.module

@@ -1,0 +1,99 @@
+<?php
+
+function triangle_finder_menu(){
+    $items['triangle_finder'] = array(
+        'title' => 'Triangle Finder',
+        'access callback' => TRUE,
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('triangle_finder_form'),
+        'type'=> MENU_NORMAL_ITEM,
+        'menu_name' => 'menu-fun-modules',
+    );
+    $items['triangle_finder_success'] = array(
+        'title' => 'You Found A Triangle',
+        'access callback' => TRUE,
+        'page callback' => 'triangle_finder_success',
+        'type' => MENU_CALLBACK,
+    );
+
+    return $items;
+}
+
+function triangle_finder_form(){
+    $form['side_a'] = array(
+        '#title' => 'First Side',
+        '#type' => 'textfield',
+        '#description' => t('Enter the length of the first side'),
+        '#element_validate' => array('element_validate_number', 'element_validate_range_triangle'),
+        '#required' => TRUE,
+    );
+    $form['side_b'] = array(
+        '#title' => 'Second Side',
+        '#type' => "textfield",
+        '#description' => t('Enter the length of the second side'),
+        '#element_validate' => array('element_validate_number', 'element_validate_range_triangle'),
+        '#required' => TRUE,
+    );
+    $form['side_c'] = array(
+        '#title' => 'Third Side',
+        '#type' => "textfield",
+        '#description' => t('Enter the length of the third side'),
+        '#element_validate' => array('element_validate_number', 'element_validate_range_triangle'),
+        '#required' => TRUE,
+    );
+    $form['submit'] = array(
+        '#type' => 'submit',
+        '#value' => 'Find Your Triangle',
+    );
+
+    return $form;
+}
+
+function element_validate_range_triangle($element){
+    if($element['#value'] <= 0 ){
+        form_error($element, t("We can't go in to the Negative Zone. Pick something greater than zero Please"));
+    }
+}
+
+function triangle_finder_form_validate($form, &$form_state){
+    $a = $form_state['values']['side_a'];
+    $b = $form_state['values']['side_b'];
+    $c = $form_state['values']['side_c'];
+    $d = 0;
+    if ($a >= $b + $c){
+        $d = $b + $c;
+        form_set_error('side_a', t("This won't make a triangle; the Sum of any two sides MUST be greater than the remaining side. ". $a . " is greater than or equal to ". $d));
+    }
+    if ($b >= $a + $c){
+        $d = $a + $c;
+        form_set_error('side_b', t("This won't make a triangle; the Sum of any two sides MUST be greater than the remaining side. ". $b . " is greater than or equal to ". $d));
+    }
+    if ($c >= $a + $b){
+        $d = $a + $b;
+        form_set_error('side_c', t("This won't make a triangle; the Sum of any two sides MUST be greater than the remaining side. ". $c . " is greater than or equal to ". $d));
+    }
+}
+
+function triangle_finder_form_submit($form, &$form_state){
+    $a = $form_state['values']['side_a'];
+    $b = $form_state['values']['side_b'];
+    $c = $form_state['values']['side_c'];
+
+    $triangle_type = 'Your Triangle is: ';
+
+    if( $a === $b && $b === $c){
+        $triangle_type = $triangle_type . 'Equilateral';
+    } elseif (( $a === $b) && !($b === $c) || ($b === $c) && !($c === $a) || ($c === $a) && !($a === $b)){
+        $triangle_type = $triangle_type . 'Isoceles';
+    } else {
+        $triangle_type = $triangle_type . 'Scalene';
+    }
+
+    $_SESSION['triangle_type_result'] = $triangle_type;
+    $form_state['redirect'] = 'triangle_finder_success';
+}
+
+function triangle_finder_success(){
+    $output = $_SESSION['triangle_type_result'];
+    return $output;
+}
