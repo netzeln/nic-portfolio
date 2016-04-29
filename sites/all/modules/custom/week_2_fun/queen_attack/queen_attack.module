@@ -92,10 +92,144 @@ function queen_attack_form_submit($form, &$form_state){
     }
 
     $_SESSION['queen_attack_output'] = $attack_result;
+    $_SESSION['queen_attack_coords'] = array(
+        'qx' => $queen_x,
+        'qy' => $queen_y,
+        'ex' => $enemy_x,
+        'ey' => $enemy_y,
+    );
     $form_state['redirect'] = 'queen_attack_result';
 }
 
 function queen_attack_result(){
     $output = $_SESSION['queen_attack_output'];
-    return  $output;
+    $qy = (int)$_SESSION['queen_attack_coords']['qy'];
+    $qx = (int)$_SESSION['queen_attack_coords']['qx'];
+    $ey = (int)$_SESSION['queen_attack_coords']['ey'];
+    $ex = (int)$_SESSION['queen_attack_coords']['ex'];
+
+    $chessboard = array(
+        '8' => array(
+            '1' => '[_]',
+            '2' => '[X]',
+            '3' => '[_]',
+            '4' => '[X]',
+            '5' => '[_]',
+            '6' => '[X]',
+            '7' => '[_]',
+            '8' => '[X]',
+        ),
+        '7' => array(
+            '1' => '[X]',
+            '2' => '[_]',
+            '3' => '[X]',
+            '4' => '[_]',
+            '5' => '[X]',
+            '6' => '[_]',
+            '7' => '[X]',
+            '8' => '[_]',
+        ),
+        '6' => array(
+            '1' => '[_]',
+            '2' => '[X]',
+            '3' => '[_]',
+            '4' => '[X]',
+            '5' => '[_]',
+            '6' => '[X]',
+            '7' => '[_]',
+            '8' => '[X]',
+        ),
+        '5' => array(
+            '1' => '[X]',
+            '2' => '[_]',
+            '3' => '[X]',
+            '4' => '[_]',
+            '5' => '[X]',
+            '6' => '[_]',
+            '7' => '[X]',
+            '8' => '[_]',
+        ),
+        '4' => array(
+            '1' => '[_]',
+            '2' => '[X]',
+            '3' => '[_]',
+            '4' => '[X]',
+            '5' => '[_]',
+            '6' => '[X]',
+            '7' => '[_]',
+            '8' => '[X]',
+        ),
+        '3' => array(
+            '1' => '[X]',
+            '2' => '[_]',
+            '3' => '[X]',
+            '4' => '[_]',
+            '5' => '[X]',
+            '6' => '[_]',
+            '7' => '[X]',
+            '8' => '[_]',
+        ),
+        '2' => array(
+            '1' => '[_]',
+            '2' => '[X]',
+            '3' => '[_]',
+            '4' => '[X]',
+            '5' => '[_]',
+            '6' => '[X]',
+            '7' => '[_]',
+            '8' => '[X]',
+        ),
+        '1' => array(
+            '1' => '[X]',
+            '2' => '[_]',
+            '3' => '[X]',
+            '4' => '[_]',
+            '5' => '[X]',
+            '6' => '[_]',
+            '7' => '[X]',
+            '8' => '[_]',
+        ),
+    );
+
+    $board_display = "";
+    foreach($chessboard as $row => $cols){
+        if($row === $qy){
+            $new_row = array();
+            foreach ($cols as $number => $square){
+                if($qx === $number){
+                    $new_square ='<span style="color:blue">[<strong>Q</strong>]</span>';
+                    array_push($new_row,$new_square);
+                }
+                else{
+                    array_push($new_row, $square);
+                }
+            }
+            $board_display = $board_display . implode("",$new_row) . "<br>";
+        }
+        elseif($row === $ey){
+            $new_row_2 = array();
+            foreach ($cols as $number => $square){
+                if($ex === $number){
+                    $new_square ='<span style="color:red">[<strong>E</strong>]</span>';
+                    array_push($new_row_2,$new_square);
+                }
+                else{
+                    array_push($new_row_2, $square);
+                }
+            }
+            $board_display = $board_display . implode("",$new_row_2) . "<br>";
+        }
+        else{
+            $new_row_3 = array();
+            foreach ($cols as $number => $square){
+                array_push($new_row_3, $square);
+            }
+
+            $board_display = $board_display . implode("",$new_row_3) . "<br>";
+        }
+
+    }
+
+
+    return  $output . "<br><br>" . $board_display;
 }
