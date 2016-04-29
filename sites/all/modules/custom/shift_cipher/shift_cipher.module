@@ -1,0 +1,69 @@
+<?php
+
+global $directions;
+$directions = array(
+    'l'=>'left',
+    'r'=>'right',
+);
+
+function shift_cipher_menu(){
+    $items['shift_cipher'] = array(
+        'title' => "Shift Cipher",
+        'access callback' => TRUE,
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('shift_cipher_form'),
+        'type'=> MENU_NORMAL_ITEM,
+    );
+    $items['shift_cipher_encoded'] = array(
+        'title' => 'Shifted Text',
+        'access callback' => TRUE,
+        'page callback' => 'shift_cipher_encoded',
+        'type' => MENU_CALLBACK,
+    );
+    return $items;
+}
+
+function shift_cipher_form(){
+    $form['shift_value'] = array(
+        '#title' => 'Shift Value',
+        '#type' => 'textfield',
+        '#description' => 'Enter the number of positions to shift',
+        '#element_validate' => array('element_validate_range_shift', 'element_validate_integer_positive'),
+        '#required' => TRUE,
+    );
+
+    $form['shift_direction'] = array(
+        '#title' => 'Shift direction',
+        '#type' => 'textfield',
+        '#description' => 'Enter the direction (left or right) shift',
+        '#required' => TRUE,
+    );
+
+    $form['shift_phrase'] = array(
+        '#title' => 'Phrase to encode',
+        '#type' => 'textfield',
+        '#description' => 'Enter a phrase to encode',
+        '#required' => TRUE,
+    );
+
+    return $form;
+}
+
+function element_validate_range_shift($element){
+    if($element['#value'] > 25){
+        form_error($element, t('Shifting by more than 25 is silly'));
+    }
+}
+
+function shift_cipher_form_validate($form, &$form_state){
+    global $directions;
+    $phrase = $form_state['values']['shift_phrase'];
+    $direction = strtolower($form_State['values']['shift_direction']);
+
+
+    if(!(array_key_exists($direction, $directions)) && !(in_array($direction, $directions))){
+        form_set_error('shift_direction', t('That is not a legal direction. Use "left" or "right"'));
+    }
+
+    if()
+}
