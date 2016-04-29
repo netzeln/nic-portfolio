@@ -46,6 +46,10 @@ function shift_cipher_form(){
         '#required' => TRUE,
     );
 
+    $form['submit'] = array(
+        '#type' => 'submit',
+        '#value' => 'Encode your Phrase',
+    );
     return $form;
 }
 
@@ -58,12 +62,30 @@ function element_validate_range_shift($element){
 function shift_cipher_form_validate($form, &$form_state){
     global $directions;
     $phrase = $form_state['values']['shift_phrase'];
-    $direction = strtolower($form_State['values']['shift_direction']);
-
+    $direction = strtolower($form_state['values']['shift_direction']);
+    $pattern = '/\d/';
 
     if(!(array_key_exists($direction, $directions)) && !(in_array($direction, $directions))){
         form_set_error('shift_direction', t('That is not a legal direction. Use "left" or "right"'));
     }
 
-    if()
+    if(preg_match($pattern, $phrase)){
+        form_set_error('shift_phrase', t('Only letters and punctuation please. We can not shift numbers.'));
+    }
+}
+
+function shift_cipher_form_submit($form, &$form_state){
+    global $directions;
+    $phrase = $form_state['values']['shift_phrase'];
+    $direction = strtolower($form_State['values']['shift_direction']);
+    $encoded_phrase = $phrase;
+
+
+    $_SESSION['encoded_phrase'] = $encoded_phrase;
+    $form_state['redirect'] = 'shift_cipher_encoded';
+}
+
+function shift_cipher_encoded(){
+    $encoded_phrase = $_SESSION['encoded_phrase'];
+    return $encoded_phrase;
 }
