@@ -75,6 +75,7 @@ function coding_projects_field_default_field_bases() {
         'HTML' => 'HTML',
         'JavaScript' => 'JavaScript',
         'other' => 'other',
+        'drupal' => 'Drupal',
       ),
       'allowed_values_function' => '',
     ),
