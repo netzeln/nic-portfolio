@@ -29,7 +29,7 @@
 <div class="project-row">
   <h2 class="brown-title"><?php print $fields['title']->content ?></h2>
   <p><?php print $fields['field_languages_used']->content ?></p>
-  <br><?php print $fields["view_node"]->content ?>  --
+  <?php print $fields["view_node"]->content ?>  --
   <a href='<?php print $fields["field_github"]->content ?>' >Link to Code</a>
 
 </div>
