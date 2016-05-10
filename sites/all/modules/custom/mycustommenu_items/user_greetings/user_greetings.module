@@ -3,7 +3,7 @@
 global $user_roles;
 $user_roles = array(
     'authenticated user' => 'authenticated_user',
-    'moderator' => 'moderator',
+    'power user' => 'power_user',
     'administrator' => 'administrator',
 );
 
@@ -31,13 +31,13 @@ function user_greetings_menu() {
 
 function say_hello($user_title) {
     global $user;
-    
+
     if($user_title == 'administrator') {
-        return '<h1>'.$user->name.'</h1> <p>YOU ARE IN CHARGE!</p>';
-    } elseif ($user_title == 'moderator') {
-        return '<p>'.$user->name.':Use your power wisely.</p>';
+        return '<p><strong>'.$user->name.'</strong>: YOU ARE IN CHARGE!</p>';
+    } elseif ($user_title == 'power user') {
+        return '<p><strong>'.$user->name.'</strong>: Use your power wisely.</p>';
     } else {
-        return '<p>HI, '.$user->name.', Nice to See You!</p>';
+        return '<p>HI!, <strong>'.$user->name.'</strong>, Nice to See You!</p>';
     }
 }
 
@@ -45,8 +45,8 @@ function say_farewell($user_title) {
     // global $user;
     if($user_title == 'administrator') {
         return '<p>YOU ARE STILL IN CHARGE!</p>';
-    } elseif ($user_title == 'moderator') {
-        return '<p>: Thanks for your help!</p>';
+    } elseif ($user_title == 'power user') {
+        return '<p>Thanks for your help!</p>';
     } else {
         return '<p>Bye, Come Back Soon!</p>';
     }
@@ -63,8 +63,8 @@ function user_greetings_user_login(&$edit, $account) {
 
     if(in_array('administrator', $account->roles)){
         $_GET['destination'] = 'hello_administrator';
-    }elseif(in_array('moderator', $account->roles)){
-        $_GET['destination'] = 'hello_moderator';
+    }elseif(in_array('power user', $account->roles)){
+        $_GET['destination'] = 'hello_power_user';
     }else{
         $_GET['destination'] = 'hello_authenticated_user';
     }
@@ -73,8 +73,8 @@ function user_greetings_user_login(&$edit, $account) {
 function user_greetings_user_logout($account) {
     if(in_array('administrator', $account->roles)){
         $_GET['destination'] = 'farewell_administrator';
-    }elseif(in_array('moderator', $account->roles)){
-        $_GET['destination'] = 'farewell_moderator';
+    }elseif(in_array('power user', $account->roles)){
+        $_GET['destination'] = 'farewell_power_user';
     }else{
         $_GET['destination'] = 'farewell_authenticated_user';
     }
