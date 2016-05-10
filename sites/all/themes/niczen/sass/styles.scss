@@ -25,13 +25,21 @@
 /* @import "theme-B"; */
 
 body {
-  background-color: #96d490;
+  background-color: #96c390;
 }
 
 .header {
-  background-color: #CE90d4;
+  background-color: #bd90d4;
 }
-
+#main-menu{
+  background-color: #90B8D4;
+    li{
+      background-color: #79695E;
+      margin: 2px;
+      padding: 5px;
+      border-radius: 4px;
+    }
+}
 .project-row{
   background-color: #90B8D4;
   border-radius: 8px;

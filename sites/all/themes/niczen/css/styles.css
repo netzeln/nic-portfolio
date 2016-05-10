@@ -1798,15 +1798,27 @@ tr.selected td {
 /* @import "theme-B"; */
 /* line 27, ../sass/styles.scss */
 body {
-  background-color: #96d490;
+  background-color: #96c390;
 }
 
 /* line 31, ../sass/styles.scss */
 .header {
-  background-color: #CE90d4;
+  background-color: #bd90d4;
 }
 
-/* line 35, ../sass/styles.scss */
+/* line 34, ../sass/styles.scss */
+#main-menu {
+  background-color: #90B8D4;
+}
+/* line 36, ../sass/styles.scss */
+#main-menu li {
+  background-color: #79695E;
+  margin: 2px;
+  padding: 5px;
+  border-radius: 4px;
+}
+
+/* line 43, ../sass/styles.scss */
 .project-row {
   background-color: #90B8D4;
   border-radius: 8px;
@@ -1815,7 +1827,7 @@ body {
   text-align: center;
 }
 
-/* line 42, ../sass/styles.scss */
+/* line 50, ../sass/styles.scss */
 .brown-title {
   color: #59493E;
   text-align: center;
