@@ -1,0 +1,6 @@
+name = "Ajax Text Modlule"
+description = "simple ajax link to show date and time"
+core = 7.x
+package = Epicodus Examples
+files[] = ajax_link.module
+scripts[] = ajax_link.js
