@@ -1804,13 +1804,15 @@ body {
 /* line 31, ../sass/styles.scss */
 .header {
   background-color: #bd90d4;
+  border-radius: 4px;
 }
 
-/* line 34, ../sass/styles.scss */
+/* line 35, ../sass/styles.scss */
 #main-menu {
   background-color: #90B8D4;
+  border-radius: 4px;
 }
-/* line 36, ../sass/styles.scss */
+/* line 38, ../sass/styles.scss */
 #main-menu li {
   background-color: #79695E;
   margin: 2px;
@@ -1818,7 +1820,7 @@ body {
   border-radius: 4px;
 }
 
-/* line 43, ../sass/styles.scss */
+/* line 45, ../sass/styles.scss */
 .project-row {
   background-color: #90B8D4;
   border-radius: 8px;
@@ -1827,13 +1829,13 @@ body {
   text-align: center;
 }
 
-/* line 50, ../sass/styles.scss */
+/* line 52, ../sass/styles.scss */
 .brown-title {
   color: #59493E;
   text-align: center;
 }
 
-/* line 55, ../sass/styles.scss */
+/* line 57, ../sass/styles.scss */
 #quickview-ajax-wrapper {
   background-color: #79695e;
   border-radius: 8px;
