@@ -1,5 +1,5 @@
 <?php
-
+//QUESTION TO ASK:  Why am I being held hostage by the "examples" module?
 function double_helix_menu(){
     $items['doublehelix'] = array(
         'title' => "Double Helix Generator",
@@ -83,6 +83,6 @@ function double_helix_form_submit($form, &$form_state){
 function double_helix_success() {
 
     $result = $_SESSION['helix'];
-    var_dump($result);
+    
     return '<p> Your Helix would be: <strong>' . $result . '</strong></p>';
 }

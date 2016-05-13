@@ -72,4 +72,14 @@ class DoubleHelixTests extends DrupalWebTestCase{
         $this->drupalGet('doublehelix');
         $this->assertText('Enter Half of a Helix', 'There is this text on the page');
     }
+//I really don't know if this is working, or if this works because I told it how to work.
+    public function testDoubleHelixSuccessNavigation(){
+        $edit = array('input'=> 'A');
+        $this->drupalPost('doublehelix', $edit, t('Get Your Helix'));
+
+        $options = array($_SESSION['helix']);
+        $this->drupalGet('helix_success', $options);
+        $this->assertText('Your Helix would be: A/T', 'This is the result text');
+
+    }
 }
