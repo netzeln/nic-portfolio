@@ -1,0 +1,68 @@
+<?php
+
+function double_helix_menu(){
+    $items['doublehelix'] = array(
+        'title' => "Double Helix Generator",
+        'page callback' => 'drupal_get_form',
+        'access callback' => TRUE,
+        'page arguments' => array('double_helix_form'),
+        'type' => MENU_NORMAL_ITEM,
+        'menu_name' => 'menu-code-review-modules',
+    );
+
+    $items['helix_success'] = array(
+        'title' => 'Helixed',
+        'page callback' => 'double_helix_success',
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+    );
+    return $items;
+}
+
+function double_helix_form(){
+    $form['input'] = array(
+        '#title' => 'Enter Half of a Helix',
+        '#type'=> 'textfield',
+        '#description' => 'Enter a string of Nucleotides (A, T, C, G)',
+        '#required' => TRUE,
+    );
+    $form['submit'] = array(
+        '#type' => 'submit',
+        '#value' => 'Get Second Half',
+    );
+    return $form;
+}
+
+function helix_doubler($input_string){
+    $first_half = str_split(strtoupper($input_string));
+    $second_half = array();
+
+    foreach($first_half as $nucleo){
+        if($nucleo == "A"){
+            array_push($second_half, "T");
+        }elseif($nucleo == "T"){
+            array_push($second_half, "A");
+        }elseif($nucleo == "C"){
+            array_push($second_half, "G");
+        }else{
+            array_push($second_half, "C");
+        }
+    }
+
+    return strtoupper($input_string) . "/" . implode('', $second_half);
+}
+
+function double_helix_form_submit($form, &$form_state){
+    $input = $form_state['values']['input'];
+    $result = helix_doubler($input);
+    $_SESSION['helix'] = $result;
+
+    $form_state['redirect'] = 'helix_success';
+}
+
+function double_helix_success() {
+
+    $result = $_SESSION['helix'];
+    var_dump($result);
+    return '<p> Your Helix would be: <strong>' . $result . '</strong></p>';
+}

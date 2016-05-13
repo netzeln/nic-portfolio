@@ -1,0 +1,7 @@
+name = Helix Doubler
+description = creates the second half of a double Helix of DNA
+core = 7.x
+package = Code Review Modules
+files[] = double_helix.module
+files[] = double_helix.test
+dependencies[] = simpletest

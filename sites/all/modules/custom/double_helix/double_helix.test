@@ -1,0 +1,55 @@
+<?php
+class DoubleHelixTestCase extends DrupalUnitTestCase
+{
+    public static function getInfo()
+    {
+        return array(
+            'name' => 'double helix module tests',
+            'description' => 'test that double helix module functions',
+            'group' => 'Epicodus Code Review',
+        );
+    }
+
+    function testDoubleHelix()
+    {
+        $description = 'single letter swap, A should add T, output should be A/T';
+        //arrange
+        $input = 'A';
+
+        //act
+        $result = helix_doubler($input);
+
+        //assert
+        $this->assertEqual($result, 'A/T', $description);
+
+        $description = 'multi letter swap, AC should add TG, output should be AC/TG';
+        //arrange
+        $input = 'AC';
+
+        //act
+        $result = helix_doubler($input);
+
+        //assert
+        $this->assertEqual($result, 'AC/TG', $description);
+
+        $description = 'multi letter swap, TGCA should add ACGT, output should be TGCA/ACGT';
+        //arrange
+        $input = 'TGCA';
+
+        //act
+        $result = helix_doubler($input);
+
+        //assert
+        $this->assertEqual($result, 'TGCA/ACGT', $description);
+
+        $description = 'should handle lowercase inputs, tgca should add ACGT, output should be TGCA/ACGT';
+        //arrange
+        $input = 'tgca';
+
+        //act
+        $result = helix_doubler($input);
+
+        //assert
+        $this->assertEqual($result, 'TGCA/ACGT', $description);
+    }
+}
