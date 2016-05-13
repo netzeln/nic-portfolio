@@ -1704,7 +1704,7 @@ tr.selected td {
 /* line 804, ../sass/components/_misc.scss */
 .progress .filled {
   background-color: #0072b9;
-  background-image: url('../images/progress.gif?1462903529');
+  background-image: url('../images/progress.gif?1463150665');
 }
 
 /**
@@ -1831,4 +1831,11 @@ body {
 .brown-title {
   color: #59493E;
   text-align: center;
+}
+
+/* line 55, ../sass/styles.scss */
+#quickview-ajax-wrapper {
+  background-color: #79695e;
+  border-radius: 8px;
+  padding: 10px;
 }
