@@ -53,3 +53,23 @@ class DoubleHelixTestCase extends DrupalUnitTestCase
         $this->assertEqual($result, 'TGCA/ACGT', $description);
     }
 }
+class DoubleHelixTests extends DrupalWebTestCase{
+
+    public static function getInfo(){
+        return array(
+            'name' => 'Helix functional tests',
+            'description' => 'tests Double Helix Model with functional testing',
+            'group' => 'Epicodus Code Review',
+        );
+    }
+
+    public function setUp(){
+        parent::setUp(array('double_helix'));
+    }
+
+
+    public function testDoubleHelixNavigation(){
+        $this->drupalGet('doublehelix');
+        $this->assertText('Enter Half of a Helix', 'There is this text on the page');
+    }
+}

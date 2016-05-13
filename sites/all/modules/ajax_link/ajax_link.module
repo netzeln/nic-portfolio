@@ -3,10 +3,11 @@
 
  function ajax_link_menu(){
    $items['ajax-test'] = array(
-     'title' => 'Ajax Test',
+     'title' => 'Ajax Time Display',
      'type' => MENU_NORMAL_ITEM,
      'page callback' => 'ajax_link_page',
      'access arguments' => array('access content'),
+     'menu_name' => 'menu-fun-modules'
    );
 
    $items['my-ajax-test/%'] = array(
