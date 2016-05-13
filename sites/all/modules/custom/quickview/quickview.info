@@ -1,0 +1,5 @@
+name = Project Quickview
+description = quick ajax project loader
+core = 7.x
+package = Epicodus Examples
+files[] = quickview.module
