@@ -28,11 +28,31 @@ function double_helix_form(){
     );
     $form['submit'] = array(
         '#type' => 'submit',
-        '#value' => 'Get Second Half',
+        '#value' => 'Get Your Helix',
     );
     return $form;
 }
 
+function double_helix_form_validate($form, &$form_state){
+    $nucleotides = array('a','A','t','T','c','C', 'g','G');
+
+    $input_array = str_split($form_state['values']['input']);
+
+    $failures = array();
+
+    foreach($input_array as $letter){
+        if(!(in_array($letter, $nucleotides))){
+            array_push($failures, $letter);
+        }
+    }
+    if(sizeof($failures) == 1){
+
+        form_set_error('input', '<strong>' . t($failures[0] . '</strong> is NOT a Nucleotide; A, C, T, G are.'));
+    }
+    if(sizeof($failures) > 1) {
+        form_set_error('input', '<strong>' . t(implode(', ', $failures) . '</strong> : these are NOT Nucleotides; A, C, T, G are.'));
+    }
+}
 function helix_doubler($input_string){
     $first_half = str_split(strtoupper($input_string));
     $second_half = array();
